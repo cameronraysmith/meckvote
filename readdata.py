@@ -36,22 +36,62 @@ def getdist(vdf):
     distfilt=vdf[vdf.ward_desc=="CITY COUNCIL DISTRICT 4"]
     return distfilt
 
+def twopreselvote(vdf):
+    voteinds = [(type(vdf.E2_Date.tolist()[i])==str) & (type(vdf.E12_Date.tolist()[i])==str) for i in range(len(vdf.index))]
+    votefilt = vdf[voteinds]
+    return votefilt
+
 def twoelvote(vdf):
-    voteinds = [(type(vdf.E1_date.tolist()[i])==str) & (type(vdf.E4_Date.tolist()[i])==str) for i in range(len(vdf.index))]
+    voteinds = [(type(vdf.E1_date.tolist()[i])==str) & (type(vdf.E2_Date.tolist()[i])==str) for i in range(len(vdf.index))]
+    votefilt = vdf[voteinds]
+    return votefilt
+
+def threeelvote(vdf):
+    voteinds = [(type(vdf.E3_Date.tolist()[i])==str) for i in range(len(vdf.index))]
+    votefilt = vdf[voteinds]
+    return votefilt
+
+def fourelvote(vdf):
+    voteinds = [(type(vdf.E4_Date.tolist()[i])==str) for i in range(len(vdf.index))]
+    votefilt = vdf[voteinds]
+    return votefilt
+
+def fiveelvote(vdf):
+    voteinds = [(type(vdf.E5_Date.tolist()[i])==str) for i in range(len(vdf.index))]
     votefilt = vdf[voteinds]
     return votefilt
 
 def main():
     vdf = readdata()
     ddf = getdist(vdf)
-    distfilt=ddf.loc[:,['full_name_mail','mail_addr1','mail_city_state_zip',
+    #distfilt=ddf.loc[:,['full_name_mail','mail_addr1','mail_city_state_zip',
+    #           'party_cd','race_code','sex_code','age']]
+    #distfilt.to_csv('district4.csv')
+
+    tpdf = twopreselvote(ddf)
+    votefiltp2=tpdf.loc[:,['full_name_mail','mail_addr1','mail_city_state_zip',
                'party_cd','race_code','sex_code','age']]
-    distfilt.to_csv('district4.csv')
+    votefiltp2.to_csv('district4votepres2.csv')
 
     tdf = twoelvote(ddf)
-    votefilt=tdf.loc[:,['full_name_mail','mail_addr1','mail_city_state_zip',
+    votefilt2=tdf.loc[:,['full_name_mail','mail_addr1','mail_city_state_zip',
                'party_cd','race_code','sex_code','age']]
-    votefilt.to_csv('district4vote2.csv')
+    votefilt2.to_csv('district4vote2.csv')
+
+    thdf = threeelvote(tdf)
+    votefilt3=thdf.loc[:,['full_name_mail','mail_addr1','mail_city_state_zip',
+               'party_cd','race_code','sex_code','age']]
+    votefilt3.to_csv('district4vote3.csv')
+
+    fdf = fourelvote(thdf)
+    votefilt4=fdf.loc[:,['full_name_mail','mail_addr1','mail_city_state_zip',
+               'party_cd','race_code','sex_code','age']]
+    votefilt4.to_csv('district4vote4.csv')
+
+    fidf = fiveelvote(fdf)
+    votefilt5=fidf.loc[:,['full_name_mail','mail_addr1','mail_city_state_zip',
+               'party_cd','race_code','sex_code','age']]
+    votefilt5.to_csv('district4vote5.csv')
 
 if __name__ == "__main__":
     main()
