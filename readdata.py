@@ -41,6 +41,11 @@ def twopreselvote(vdf):
     votefilt = vdf[voteinds]
     return votefilt
 
+def oneelvote(vdf):
+    voteinds = [(type(vdf.E1_date.tolist()[i])==str) for i in range(len(vdf.index))]
+    votefilt = vdf[voteinds]
+    return votefilt
+
 def twoelvote(vdf):
     voteinds = [(type(vdf.E1_date.tolist()[i])==str) & (type(vdf.E2_Date.tolist()[i])==str) for i in range(len(vdf.index))]
     votefilt = vdf[voteinds]
@@ -72,6 +77,11 @@ def main():
     votefiltp2=tpdf.loc[:,['full_name_mail','mail_addr1','mail_city_state_zip',
                'party_cd','race_code','sex_code','age']]
     votefiltp2.to_csv('district4votepres2.csv')
+
+    odf = oneelvote(ddf)
+    votefilt1=odf.loc[:,['full_name_mail','mail_addr1','mail_city_state_zip',
+               'party_cd','race_code','sex_code','age']]
+    votefilt1.to_csv('district4vote1.csv')
 
     tdf = twoelvote(ddf)
     votefilt2=tdf.loc[:,['full_name_mail','mail_addr1','mail_city_state_zip',
