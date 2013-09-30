@@ -47,6 +47,20 @@ function initialize() {
     map: map
   });
 
+  var legend = document.getElementById('legend');
+
+  for (var key in layer.styles) {
+    var type = layer.styles[key]
+    var div = document.createElement('div');
+    var name = type.where
+    var color = type.markerOptions.iconName
+    div.innerHTML = name + '-' + color
+    legend.appendChild(div);
+  }
+
+  map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(
+    document.getElementById('legend'));
+
   google.maps.event.addListener(layer, 'click', function(e) {
 
           // Change the content of the InfoWindow
