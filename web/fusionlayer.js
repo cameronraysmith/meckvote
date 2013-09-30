@@ -43,9 +43,30 @@ function initialize() {
       markerOptions: {
         iconName: "measle_turquoise"
       }
-    }]
+    }],
+    map: map
   });
-  layer.setMap(map);
+
+  google.maps.event.addListener(layer, 'click', function(e) {
+
+          // Change the content of the InfoWindow
+          e.infoWindowHtml = e.row['full_name_mail'].value + "<br>" +
+                             e.row['party_cd'].value + " " +
+                             e.row['race_code'].value + " " +
+                             e.row['sex_code'].value + " " +
+                             e.row['age'].value + "<br>" +
+                             e.row['address'].value + "<br>";
+
+          // Add note if primary voter
+          if (e.row['prim_vote'].value == 1) {
+            e.infoWindowHtml += "!!2013 Primary Voter!!";
+          }
+          // Add note if registered 2013
+          if (e.row['reg2013'].value == 1) {
+            e.infoWindowHtml += "!!Registered in 2013!!";
+          }
+  });
+
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);
