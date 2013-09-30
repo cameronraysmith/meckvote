@@ -54,7 +54,7 @@ function initialize() {
     var div = document.createElement('div');
     var name = type.where
     var color = type.markerOptions.iconName
-    div.innerHTML = name + '-' + color
+    div.innerHTML = name + '   -   ' + color
     legend.appendChild(div);
   }
 
