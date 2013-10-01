@@ -47,7 +47,27 @@ function initialize() {
     map: map
   });
 
+
+
+  var LAYER_STYLES = {
+    'names': [
+      '4x',
+      '3x',
+      '2x',
+      '1x',
+      '0x'
+    ],
+    'colors': [
+      'FE4D54',
+      'FFFF86',
+      '89FF85',
+      '89FFFF',
+      '8681FF'
+    ],
+  }
+
   var legend = document.getElementById('legend');
+
 
   for (var key in layer.styles) {
     var type = layer.styles[key]
