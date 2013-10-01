@@ -1,4 +1,4 @@
-var map, layer;
+var map, legend, layer;
 
 function initialize() {
   var charlotte = new google.maps.LatLng(35.227189, -80.843067);
