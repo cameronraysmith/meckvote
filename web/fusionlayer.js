@@ -66,20 +66,20 @@ function initialize() {
     ],
   }
 
-  var legend = document.getElementById('legend');
+  // Create legend and display on the map.
+  var legend = document.getElementById('legend')
+  var content = []
+  content.push('<h3>Legend</h3>');
+  content.push('<p><div class="color red"></div>4x</p>');
+  content.push('<p><div class="color yellow"></div>3x</p>');
+  content.push('<p><div class="color green"></div>2x</p>');
+  content.push('<p><div class="color blue"></div>1x</p>');
+  content.push('<p><div class="color purple"></div>0x</p>');
+  legend.innerHTML = content.join('');
+  legend.index = 1;
 
-
-  for (var key in layer.styles) {
-    var type = layer.styles[key]
-    var div = document.createElement('div');
-    var name = type.where
-    var color = type.markerOptions.iconName
-    div.innerHTML = name + '   -   ' + color
-    legend.appendChild(div);
-  }
-
-  map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(
-    document.getElementById('legend'));
+  // map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(
+  //   document.getElementById('legend'));
 
   google.maps.event.addListener(layer, 'click', function(e) {
 
