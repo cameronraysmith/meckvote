@@ -1,35 +1,38 @@
 html { height: 100% }
 body { height: 100%; margin: 0; padding: 0 }
+
 #map-canvas { height: 100% }
+
 #legend {
-background: white;
-padding: 10px;
+    background: white;
+    padding: 5px;
 }
 
 .color {
-border: 1px solid;
-height: 12px;
-width: 12px;
-margin-right: 3px;
-float: left;
+    border: 1px solid;
+    height: 12px;
+    width: 12px;
+    margin-right: 3px;
+    float: left;
+    display: block;
 }
 
 .red {
-background: 'FE4D54';
+    color: 'FE4D54';
 }
 
 .yellow {
-background: 'FFFF86';
+    color: 'FFFF86';
 }
 
 .green {
-background: '89FF85';
+    color: '89FF85';
 }
 
 .blue {
-background: '89FFFF';
+    color: '89FFFF';
 }
 
 .purple {
-background: '8681FF';
+    color: '8681FF';
 }

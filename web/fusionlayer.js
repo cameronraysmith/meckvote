@@ -1,5 +1,24 @@
 var map, legend, layer;
 
+var LAYER_STYLES = {
+    'All': {
+    'names': [
+      '4x',
+      '3x',
+      '2x',
+      '1x',
+      '0x'
+    ],
+    'colors': [
+      '#FE4D54',
+      '#FFFF86',
+      '#89FF85',
+      '#89FFFF',
+      '#8681FF'
+    ]
+  }
+}
+
 function initialize() {
   var charlotte = new google.maps.LatLng(35.227189, -80.843067);
 
@@ -8,6 +27,8 @@ function initialize() {
     zoom: 11,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
+
+  createLegend(map);
 
   layer = new google.maps.FusionTablesLayer({
     query: {
@@ -47,42 +68,7 @@ function initialize() {
     map: map
   });
 
-
-
-  var LAYER_STYLES = {
-    'names': [
-      '4x',
-      '3x',
-      '2x',
-      '1x',
-      '0x'
-    ],
-    'colors': [
-      'FE4D54',
-      'FFFF86',
-      '89FF85',
-      '89FFFF',
-      '8681FF'
-    ],
-  }
-
-  // Create legend and display on the map.
-  var legend = document.getElementById('legend')
-  var content = []
-  content.push('<h3>Legend</h3>');
-  content.push('<p><div class="color red"></div>4x</p>');
-  content.push('<p><div class="color yellow"></div>3x</p>');
-  content.push('<p><div class="color green"></div>2x</p>');
-  content.push('<p><div class="color blue"></div>1x</p>');
-  content.push('<p><div class="color purple"></div>0x</p>');
-  legend.innerHTML = content.join('');
-  legend.index = 1;
-
-  // map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(
-  //   document.getElementById('legend'));
-
-  google.maps.event.addListener(layer, 'click', function(e) {
-
+ google.maps.event.addListener(layer, 'click', function(e) {
           // Change the content of the InfoWindow
           e.infoWindowHtml = e.row['full_name_mail'].value + "<br>" +
                              e.row['party_cd'].value + " " +
@@ -102,5 +88,48 @@ function initialize() {
   });
 
 }
+
+function createLegend(map) {
+      var legendWrapper = document.createElement('div');
+      //legendWrapper.id = 'legendWrapper';
+      //legendWrapper.index = 1;
+      map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(
+          legendWrapper);
+      legendContent(legendWrapper);
+    }
+
+function legendContent(legendWrapper) {
+      var legend = document.createElement('div');
+      legend.id = 'legend';
+
+      var title = document.createElement('p');
+      title.innerHTML = 'votes (#)';
+      legend.appendChild(title);
+
+      var layerStyle = LAYER_STYLES['All'];
+      var colors = layerStyle.colors;
+      var names = layerStyle.names;
+      // var minNum = layerStyle.min;
+      // var maxNum = layerStyle.max;
+      // var step = (maxNum - minNum) / colors.length;
+      for (var i = 0; i < colors.length; i++) {
+        var legendItem = document.createElement('div');
+
+        var color = document.createElement('div');
+        color.setAttribute('class', 'color');
+        color.style.backgroundColor = colors[i];
+        legendItem.appendChild(color);
+
+        //var newMin = minNum + step * i;
+        //var newMax = newMin + step;
+        var minMax = document.createElement('span');
+        minMax.innerHTML = names[i];
+        legendItem.appendChild(minMax);
+
+        legend.appendChild(legendItem);
+      }
+
+      legendWrapper.appendChild(legend);
+    }
 
 google.maps.event.addDomListener(window, 'load', initialize);
