@@ -91,8 +91,6 @@ function initialize() {
 
 function createLegend(map) {
       var legendWrapper = document.createElement('div');
-      //legendWrapper.id = 'legendWrapper';
-      //legendWrapper.index = 1;
       map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(
           legendWrapper);
       legendContent(legendWrapper);
@@ -109,9 +107,6 @@ function legendContent(legendWrapper) {
       var layerStyle = LAYER_STYLES['All'];
       var colors = layerStyle.colors;
       var names = layerStyle.names;
-      // var minNum = layerStyle.min;
-      // var maxNum = layerStyle.max;
-      // var step = (maxNum - minNum) / colors.length;
       for (var i = 0; i < colors.length; i++) {
         var legendItem = document.createElement('div');
 
@@ -120,8 +115,6 @@ function legendContent(legendWrapper) {
         color.style.backgroundColor = colors[i];
         legendItem.appendChild(color);
 
-        //var newMin = minNum + step * i;
-        //var newMax = newMin + step;
         var minMax = document.createElement('span');
         minMax.innerHTML = names[i];
         legendItem.appendChild(minMax);

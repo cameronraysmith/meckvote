@@ -16,23 +16,3 @@ body { height: 100%; margin: 0; padding: 0 }
     float: left;
     display: block;
 }
-
-.red {
-    color: 'FE4D54';
-}
-
-.yellow {
-    color: 'FFFF86';
-}
-
-.green {
-    color: '89FF85';
-}
-
-.blue {
-    color: '89FFFF';
-}
-
-.purple {
-    color: '8681FF';
-}
