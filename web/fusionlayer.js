@@ -13,8 +13,8 @@ var LAYER_STYLES = {
       '#FE4D54',
       '#FFFF86',
       '#89FF85',
-      '#89FFFF',
-      '#8681FF'
+      '#8681FF',
+      '#89FFFF'
     ]
   }
 }
