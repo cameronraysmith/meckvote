@@ -45,7 +45,7 @@ html, body {
 #voting_precincts{
   polygon-fill: #FF6600;
   polygon-opacity: 0.2;
-  line-width: 1;
-  line-color: #FFF;
-  line-opacity: 1;
+  line-width: 1.5;
+  line-color: #000000;
+  line-opacity: 0.3;
 }
