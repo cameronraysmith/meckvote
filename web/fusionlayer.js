@@ -3,16 +3,16 @@ var map, legend, layer;
 var LAYER_STYLES = {
     'All': {
     'names': [
-      '4x',
-      '3x',
-      '2x',
-      '1x',
-      '0x'
+      'R,L',
+      //'3x',
+      //'2x',
+      'B & (D or U)',
+      'NB & (D or U)'
     ],
     'colors': [
       '#FE4D54',
-      '#FFFF86',
-      '#89FF85',
+      //'#FFFF86',
+      //'#89FF85',
       '#8681FF',
       '#89FFFF'
     ]
@@ -22,47 +22,48 @@ var LAYER_STYLES = {
 function initialize() {
   var charlotte = new google.maps.LatLng(35.227189, -80.843067);
 
+  //var gm = google.maps;
+  // var map = new gm.Map(document.getElementById('map_canvas'), {
+  //   mapTypeId: gm.MapTypeId.SATELLITE,
+  //   center: new gm.LatLng(50, 0),
+  //   zoom: 6
+  // });
+
+
   map = new google.maps.Map(document.getElementById('map-canvas'), {
     center: charlotte,
     zoom: 11,
     mapTypeId: google.maps.MapTypeId.ROADMAP
   });
 
+  var oms = new OverlappingMarkerSpiderfier(map);
+
   createLegend(map);
 
   layer = new google.maps.FusionTablesLayer({
     query: {
       select: '\'address\'',
-      from: '13pTC4zerW2jyOQ5UyOgyg4VuA6p0ktjXrP8T_rw'
+      //from: '13pTC4zerW2jyOQ5UyOgyg4VuA6p0ktjXrP8T_rw'
+      from: '1TRkfvxdm-shotrDWOo2S0np0eu9vLn6p02CoHhI'
     },
-    styles: [{
-      where: 'vote_count = 4',
+    styles: [
+    {
+      where: "party_cd IN ('REP', 'LIB')",
       markerOptions: {
         iconName: "small_red"
       }
     },
-      {
-      where: 'vote_count = 3',
-      markerOptions: {
-        iconName: "small_yellow"
-      }
-    },
-      {
-      where: 'vote_count = 2',
-      markerOptions: {
-        iconName: "small_green"
-      }
-    },
-      {
-      where: 'vote_count = 1',
-      markerOptions: {
-        iconName: "small_blue"
-      }
-    },
-      {
-      where: 'vote_count = 0',
+     {
+      where: "party_cd IN ('DEM','UNA')",
       markerOptions: {
         iconName: "measle_turquoise"
+      }
+    },
+      {
+      where: "party_cd IN ('DEM','UNA') AND race_code = 'B'",
+      //where: 'race_code = B',
+      markerOptions: {
+        iconName: "small_blue"
       }
     }],
     map: map
@@ -75,6 +76,8 @@ function initialize() {
                              e.row['race_code'].value + " " +
                              e.row['sex_code'].value + " " +
                              e.row['age'].value + "<br>" +
+                             "Vote count: " +
+                             e.row['vote_count'].value + "<br>" +
                              e.row['address'].value + "<br>";
 
           // Add note if primary voter

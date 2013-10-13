@@ -54,6 +54,30 @@ def elcount(row):
         n += 1
     return n
 
+def e2count(row):
+    n=0
+    if type(row["E2_Date"])==str:
+        n += 1
+    return n
+
+def e5count(row):
+    n=0
+    if type(row["E5_Date"])==str:
+        n += 1
+    return n
+
+def e7count(row):
+    n=0
+    if type(row["E7_Date"])==str:
+        n += 1
+    return n
+
+def e10count(row):
+    n=0
+    if type(row["E10_Date"])==str:
+        n += 1
+    return n
+
 def primcount(row):
     n=0
     if type(row["E1_date"])==str:
@@ -76,14 +100,24 @@ def main():
     vdf = readdata()
     ddf = getdist(vdf)
     ddf["vote_count"] = ddf.apply(elcount, axis=1)
+    ddf["vote_2012"] = ddf.apply(e2count, axis=1)
+    ddf["vote_2011"] = ddf.apply(e5count, axis=1)
+    ddf["vote_2010"] = ddf.apply(e7count, axis=1)
+    ddf["vote_2009"] = ddf.apply(e10count, axis=1)
     ddf["prim_vote"] = ddf.apply(primcount, axis=1)
     ddf["reg2013"] = ddf.apply(reg2013, axis=1)
-    ddf = ddf[(ddf["vote_count"]>0) | (ddf["prim_vote"]>0) | (ddf["reg2013"]>0)]
+    #ddf = ddf[(ddf["vote_count"]>0) | (ddf["prim_vote"]>0) | (ddf["reg2013"]>0)]
+    ddf = ddf[((ddf["vote_2012"]+ddf["vote_2011"])==2) |
+              ((ddf["vote_2012"]+ddf["vote_2009"])==2) |
+              (ddf["prim_vote"]>0)
+             ]
     ddf["address"] = map(joinaddr, ddf["mail_addr1"], ddf["mail_city_state_zip"])
     elfilt=ddf.loc[:,['precinct_desc','full_name_mail',
-             'address','vote_count',"prim_vote","reg2013",'party_cd','race_code','ethnic_code',
-             'sex_code','age']]
-    elfilt.to_csv('district4vote.csv')
+                      'address','vote_count',"vote_2012",
+                      "vote_2011","vote_2010","vote_2009",
+                      "prim_vote","reg2013",'party_cd',
+                      'race_code','ethnic_code','sex_code','age']]
+    elfilt.to_csv('district4vote_stringentfilt.csv')
 
     return elfilt
 
