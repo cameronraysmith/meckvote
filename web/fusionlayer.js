@@ -22,7 +22,7 @@ var LAYER_STYLES = {
 function initialize() {
   var charlotte = new google.maps.LatLng(35.227189, -80.843067);
 
-  //var gm = google.maps;
+  var gm = google.maps;
   // var map = new gm.Map(document.getElementById('map_canvas'), {
   //   mapTypeId: gm.MapTypeId.SATELLITE,
   //   center: new gm.LatLng(50, 0),
@@ -30,17 +30,17 @@ function initialize() {
   // });
 
 
-  map = new google.maps.Map(document.getElementById('map-canvas'), {
+  map = new gm.Map(document.getElementById('map-canvas'), {
     center: charlotte,
     zoom: 11,
-    mapTypeId: google.maps.MapTypeId.ROADMAP
+    mapTypeId: gm.MapTypeId.ROADMAP
   });
 
   var oms = new OverlappingMarkerSpiderfier(map);
 
   createLegend(map);
 
-  layer = new google.maps.FusionTablesLayer({
+  layer = new gm.FusionTablesLayer({
     query: {
       select: '\'address\'',
       //from: '13pTC4zerW2jyOQ5UyOgyg4VuA6p0ktjXrP8T_rw'
@@ -69,7 +69,7 @@ function initialize() {
     map: map
   });
 
- google.maps.event.addListener(layer, 'click', function(e) {
+ gm.event.addListener(layer, 'click', function(e) {
           // Change the content of the InfoWindow
           e.infoWindowHtml = e.row['full_name_mail'].value + "<br>" +
                              e.row['party_cd'].value + " " +
@@ -104,7 +104,7 @@ function legendContent(legendWrapper) {
       legend.id = 'legend';
 
       var title = document.createElement('p');
-      title.innerHTML = 'votes (#)';
+      title.innerHTML = ' ';
       legend.appendChild(title);
 
       var layerStyle = LAYER_STYLES['All'];
