@@ -10,6 +10,7 @@ output: district4vote.csv
 """
 
 import pandas as pd
+from pygeocoder import Geocoder
 #import numpy as np
 #import d3py
 
@@ -96,6 +97,13 @@ def joinaddr(street,citystatezip):
     else:
         return street
 
+def geocode(address):
+    if Geocoder.geocode(address).valid_address:
+        result = Geocoder.geocode(address)
+        return result.latitude, result.longitude, result.street_number, result.route
+    else:
+        return 0, 0, u'999999', u'ZZZZZZZ'
+
 def main():
     vdf = readdata()
     ddf = getdist(vdf)
@@ -112,12 +120,21 @@ def main():
               (ddf["prim_vote"]>0)
              ]
     ddf["address"] = map(joinaddr, ddf["mail_addr1"], ddf["mail_city_state_zip"])
-    elfilt=ddf.loc[:,['precinct_desc','full_name_mail',
+
+    #gcads = map(geocode, ddf["address"])
+    #ddf["latitude"] = [gcads[i][0] for i in range(len(gcads))]
+    #ddf["longitude"] = [gcads[i][1] for i in range(len(gcads))]
+
+
+    sddf=ddf.sort(['precinct_desc','street_name','house_num'],ascending=[True,True,True])
+
+    elfilt=sddf.loc[:,['precinct_desc','full_name_mail',
                       'address','vote_count',"vote_2012",
                       "vote_2011","vote_2010","vote_2009",
                       "prim_vote","reg2013",'party_cd',
-                      'race_code','ethnic_code','sex_code','age']]
-    elfilt.to_csv('district4vote_stringentfilt.csv')
+                      'race_code','ethnic_code','sex_code','age',
+                      'house_num','street_name']]
+    elfilt.to_csv('district4vote_stringordered.csv')
 
     return elfilt
 
